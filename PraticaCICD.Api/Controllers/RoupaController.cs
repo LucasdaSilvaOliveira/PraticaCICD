@@ -35,7 +35,7 @@ namespace PraticaCICD.Api.Controllers
         [HttpPost("Adicionar")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Adicionar([FromBody]RoupaDTO roupaDTO)
+        public async Task<IActionResult> Adicionar([FromBody] RoupaDTO roupaDTO)
         {
             if (roupaDTO == null)
             {
@@ -60,17 +60,18 @@ namespace PraticaCICD.Api.Controllers
         public async Task<IActionResult> ObterPorId(int id)
         {
             var roupa = await _repository.ObterPorId(id);
-            if(roupa == null) return NotFound();
+            if (roupa == null) return NotFound();
             return Ok(roupa);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Atualizar(int id, [FromBody]RoupaDTO roupaDTO)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Atualizar(int id, [FromBody] RoupaDTO roupaDTO)
         {
             var roupa = await _repository.ObterPorId(id);
             if (roupa == null) return NotFound();
 
-            //roupa.Id = id;
             roupa.Tamanho = roupaDTO.Tamanho;
             roupa.Tipo = roupaDTO.Tipo;
             roupa.Preco = roupaDTO.Preco;
@@ -79,6 +80,17 @@ namespace PraticaCICD.Api.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult> Deletar(int id)
+        {
+            var roupa = await _repository.ObterPorId(id);
+            if (roupa == null) return NotFound();
+
+            await _repository.Deletar(roupa);
+            return NoContent();
+        }
     }
 }
- 
