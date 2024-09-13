@@ -1,7 +1,14 @@
+using PraticaCICD.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IRoupaService>(options =>
+{
+    options.BaseAddress = new Uri("");
+});
 
 var app = builder.Build();
 
