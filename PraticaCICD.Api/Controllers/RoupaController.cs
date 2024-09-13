@@ -32,7 +32,7 @@ namespace PraticaCICD.Api.Controllers
             return Ok(roupasDTO);
         }
 
-        [HttpPost("Adicionar")]
+        [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Adicionar([FromBody] RoupaDTO roupaDTO)
