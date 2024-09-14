@@ -1,21 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
 using PraticaCICD.Web.Models;
+using PraticaCICD.Web.Services;
 using System.Diagnostics;
 
 namespace PraticaCICD.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IRoupaService _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IRoupaService service)
         {
-            _logger = logger;
+            _service = service;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var response = _service.ObterTodos()
+                .GetAwaiter()
+                .GetResult();
+
+            var model = response.Select(x => new RoupaViewModel
+            {
+                Id = x.Id,
+                Preco = x.Preco,
+                Tamanho = x.Tamanho,
+                Tipo = x.Tipo
+            }).ToList();
+
+            return View(model);
         }
 
         public IActionResult Privacy()
