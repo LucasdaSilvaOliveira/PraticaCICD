@@ -5,10 +5,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpClient<IRoupaService>(options =>
+//builder.Services.AddHttpClient<RoupaService>(options =>
+//{
+//    options.BaseAddress = new Uri("https://localhost:7256");
+//});
+
+builder.Services.AddHttpClient("RoupaService", httpCliente =>
 {
-    options.BaseAddress = new Uri("");
+    httpCliente.BaseAddress = new Uri("https://localhost:7256/");
 });
+
+builder.Services.AddScoped<IRoupaService, RoupaService>();
 
 var app = builder.Build();
 
