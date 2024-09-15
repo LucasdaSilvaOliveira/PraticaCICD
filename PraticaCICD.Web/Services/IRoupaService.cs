@@ -7,7 +7,7 @@ namespace PraticaCICD.Web.Services
         Task<List<RoupaDTO>> ObterTodos();
         Task<RoupaDTO> ObterPorId(int id);
         Task Deletar(RoupaDTO roupaDTO);
-        Task Atualizar(RoupaDTO roupaDTO);
+        Task<bool> Atualizar(RoupaDTO roupaDTO);
         Task<bool> Adicionar(RoupaDTO roupaDTO);
 
     }

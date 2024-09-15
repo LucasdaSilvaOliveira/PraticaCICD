@@ -27,9 +27,15 @@ namespace PraticaCICD.Web.Services
             return false;
         }
 
-        public Task Atualizar(RoupaDTO roupaDTO)
+        public async Task<bool> Atualizar(RoupaDTO roupaDTO)
         {
-            throw new NotImplementedException();
+            var content = JsonContent.Create(roupaDTO);
+
+            var response = await _httpClient.PutAsync(FullUri + $"/{roupaDTO.Id}", content);
+
+            if (response.IsSuccessStatusCode) return true;
+
+            return false;
         }
 
         public Task Deletar(RoupaDTO roupaDTO)
