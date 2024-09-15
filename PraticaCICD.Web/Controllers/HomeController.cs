@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PraticaCICD.Web.DTOs;
 using PraticaCICD.Web.Models;
 using PraticaCICD.Web.Services;
 using System.Diagnostics;
@@ -34,6 +35,34 @@ namespace PraticaCICD.Web.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(RoupaViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var roupaDTO = new RoupaDTO();
+                roupaDTO.Tipo = model.Tipo;
+                roupaDTO.Tamanho = model.Tamanho;
+                roupaDTO.Preco = model.Preco;
+                
+
+                var response = _service.Adicionar(roupaDTO)
+                    .GetAwaiter()
+                    .GetResult();
+
+                if (response) return RedirectToAction("Index");
+
+                return View(model);
+            }
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
