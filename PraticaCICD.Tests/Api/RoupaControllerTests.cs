@@ -30,14 +30,14 @@ namespace PraticaCICD.Tests.Api
 
             var listaRoupas = new List<Roupa>();
 
-            repositoryMoq.Setup(x => x.ObterTodos().Result).Returns(listaRoupas);
+            repositoryMoq.Setup(x => x.ObterTodos()).ReturnsAsync(listaRoupas);
 
             var controller = new RoupaController(repositoryMoq.Object);
 
             var response = (OkObjectResult)await controller.ObterTodos();
 
+            Assert.NotNull(response);
             Assert.Equal(200, response.StatusCode);
-            //Assert.Equal(200, 200);
 
             //Assert.IsType<OkObjectResult>(response.StatusCode);
         }
