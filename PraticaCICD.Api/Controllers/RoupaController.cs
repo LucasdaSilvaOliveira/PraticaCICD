@@ -17,7 +17,7 @@ namespace PraticaCICD.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> ObterTodos()
+        public async Task<ActionResult> ObterTodos()
         {
             var roupas = await _repository.ObterTodos();
 
@@ -35,7 +35,7 @@ namespace PraticaCICD.Api.Controllers
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Adicionar([FromBody] RoupaDTO roupaDTO)
+        public async Task<ActionResult> Adicionar([FromBody] RoupaDTO roupaDTO)
         {
             if (roupaDTO == null)
             {
@@ -57,7 +57,7 @@ namespace PraticaCICD.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> ObterPorId(int id)
+        public async Task<ActionResult> ObterPorId(int id)
         {
             var roupa = await _repository.ObterPorId(id);
             if (roupa == null) return NotFound();
@@ -67,7 +67,7 @@ namespace PraticaCICD.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Atualizar(int id, [FromBody] RoupaDTO roupaDTO)
+        public async Task<ActionResult> Atualizar(int id, [FromBody] RoupaDTO roupaDTO)
         {
             var roupa = await _repository.ObterPorId(id);
             if (roupa == null) return NotFound();
