@@ -32,6 +32,16 @@ namespace PraticaCICD.Api.Controllers
             return Ok(roupasDTO);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult> ObterPorId(int id)
+        {
+            var roupa = await _repository.ObterPorId(id);
+            if (roupa == null) return NotFound();
+            return Ok(roupa);
+        }
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -52,16 +62,6 @@ namespace PraticaCICD.Api.Controllers
             await _repository.Adicionar(roupa);
 
             return Created();
-        }
-
-        [HttpGet("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public async Task<ActionResult> ObterPorId(int id)
-        {
-            var roupa = await _repository.ObterPorId(id);
-            if (roupa == null) return NotFound();
-            return Ok(roupa);
         }
 
         [HttpPut("{id}")]

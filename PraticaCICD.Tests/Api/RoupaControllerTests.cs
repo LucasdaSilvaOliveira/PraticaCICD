@@ -38,8 +38,52 @@ namespace PraticaCICD.Tests.Api
 
             Assert.NotNull(response);
             Assert.Equal(200, response.StatusCode);
+        }
 
-            //Assert.IsType<OkObjectResult>(response.StatusCode);
+        [Fact]
+        public async Task ObterPorIdRetornaOk()
+        {
+            var repositoryMoq = new Mock<IRoupaRepository>();
+
+            var roupa = new Roupa();
+
+            repositoryMoq.Setup(x => x.ObterPorId(It.IsAny<int>())).ReturnsAsync(roupa);
+
+            var controller = new RoupaController(repositoryMoq.Object);
+
+            var res = (OkObjectResult)await controller.ObterPorId(1);
+
+            Assert.NotNull(res);
+            Assert.Equal(200, res.StatusCode);
+            Assert.NotNull(res.Value);
+            Assert.Equal(roupa, res.Value);
+            Assert.IsType<Roupa>(res.Value);
+        }
+
+        [Fact]
+        public async Task ObterPorIdRetornaNotFound()
+        {
+
+            var options = new DbContextOptionsBuilder<BancoContext>()
+                .UseInMemoryDatabase(databaseName: "PraticaCICD").Options;
+
+            using var context = new BancoContext(options);
+            context.Roupas.AddRange(
+                new Roupa() { Id = 1, Preco = 10, Tamanho = "G", Tipo = "Camiseta" },
+                new Roupa() { Id = 2, Preco = 10, Tamanho = "G", Tipo = "Camiseta" },
+                new Roupa() { Id = 3, Preco = 10, Tamanho = "G", Tipo = "Camiseta" },
+                new Roupa() { Id = 4, Preco = 10, Tamanho = "G", Tipo = "Camiseta" }
+            );
+            context.SaveChanges();
+
+            var repository = new RoupaRepository(context);
+
+            var controller = new RoupaController(repository);
+
+            var res = await controller.ObterPorId(5);
+
+            Assert.IsType<NotFoundResult>(res);
+
         }
     }
 }
