@@ -99,7 +99,7 @@ namespace PraticaCICD.Tests.Api
                 Tipo = "Camisa"
             };
 
-            repositoryMoq.Setup(x => x.ObterPorId(1)).ReturnsAsync(roupa);
+            repositoryMoq.Setup(x => x.ObterPorId(2)).ReturnsAsync(roupa);
 
             repositoryMoq.Setup(x => x.Deletar(roupa));
 
